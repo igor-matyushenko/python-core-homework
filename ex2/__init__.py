@@ -1,5 +1,5 @@
 from ex2 import fetcher
-
+import time
 CALL_COUNT = 10
 
 
@@ -12,7 +12,20 @@ def benchmark(num):
     """
     def wrapper(func):
         # put your code here
-        pass
+        def innerWrapper(*args, **kwargs):
+            totalTimeAllRuns = 0
+
+            for n in range(num):
+                start = time.time()
+                func(*args, **kwargs)
+                currentTime = time.time() - start
+                print(f'Время выполнения прогона:{n}: {currentTime}')
+                totalTimeAllRuns += currentTime
+
+            print(f'Среднее время прогона: {totalTimeAllRuns / num}')
+
+        return innerWrapper
+		
     return wrapper
 
 
